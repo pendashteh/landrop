@@ -1,0 +1,14 @@
+base: .drop.yml
+
+profile:
+  name: govcms
+
+build:
+  profile:
+    type: zip
+    url: https://ftp.drupal.org/files/projects/govcms-7.x-2.29-no-core.tar.gz
+    dirname: govcms
+  docroot:
+    type: git
+    url: https://github.com/drupal/drupal.git
+    branch: 7.x

@@ -1,0 +1,58 @@
+#!/usr/bin/env bash
+
+set -e
+
+main () {
+  script_root=$(dirname $(realpath $0))
+
+  local command="help" && [ ! -z "$1" ] && command=$1
+
+  local command_args=${@:2}
+
+  case $command in
+    "help")
+      _help $command_args
+      ;;
+    "init")
+      _init $command_args
+      ;;
+    "launch")
+      _launch $command_args
+      ;;
+  esac
+}
+
+_help () {
+  echo "[HELP]"
+  echo "$ landrop [COMMAND] [ARGS]"
+  echo "List of available commands:"
+  echo "- help # Displays this information"
+  echo "- init LANDO_NAME # Initialises config files for drop and lando"
+  echo "- launch # Starts lando and builds and installs via drop"
+  return 0
+}
+
+_init () {
+  local lando_name && [ ! -z "$1" ] && lando_name=$1
+  [ -z "$lando_name" ] && echo "[ERROR] please provide LANDO_NAME" && exit
+
+  echo "Setting up lando & drop for $lando_name"
+
+  cp $script_root/example-dot-lando.yml .lando.yml
+  cp $script_root/example-dot-drop.yml .drop.yml
+  cp $script_root/example-drop.yml drop.yml
+
+  sed -i "s/LANDO_NAME/$lando_name/" .drop.yml .lando.yml
+
+  echo "Installs drop... got it? ;)"
+  rm -rf .drop
+  git clone git@github.com:pendashteh/drop.git .drop
+}
+
+_launch () {
+  lando start
+  lando drop drop.yml build
+  lando drop drop.yml install -y
+}
+
+main ${@}
