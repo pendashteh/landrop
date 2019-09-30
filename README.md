@@ -6,15 +6,16 @@ Lando + Drop: Automate a Drupal download, install and launch by almost zero conf
 ```
 landrop init my-govcms
 
+# modify the generated drop.yml to specify Drupal core version and distribution of choice
+
 landrop launch
 ```
 This will download, install and launch a GovCMS instance!
 
 # Install
-You need to have `lando` installed. That's pretty much it.
+You need to have `lando` installed.
+You need to have `drush` installed (@todo use the one provided with `lando` instead)
 
 # Configuration
-You can change the Drupal core version and distribution in `example-drop.yml`
-
-# TODO
-Allow configuration without needing to modify the landrop repository.
+Modify `drop.yml` to specify Drupal core version and distribution of choice.
+Default is set to GovCMS (on Drupal7)
