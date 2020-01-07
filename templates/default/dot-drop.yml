@@ -1,0 +1,12 @@
+lando:
+  name: LANDO_NAME
+
+drupal:
+  url: https://$config_lando_name.lndo.site/
+  docroot: docroot
+  db_url: mysql://drupal8:drupal8@database:3306/drupal8
+
+install:
+  settingsphp:
+    generate: true
+    filename: settings.php

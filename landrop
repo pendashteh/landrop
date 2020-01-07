@@ -33,20 +33,22 @@ _help () {
 }
 
 _init () {
-  local lando_name && [ ! -z "$1" ] && lando_name=$1
-  [ -z "$lando_name" ] && echo "[ERROR] please provide LANDO_NAME" && exit
+  local landrop_template && [ ! -z "$1" ] && landrop_template=$1 || landrop_template="default"
+  local lando_name && [ ! -z "$2" ] && lando_name=$2 || lando_name=$landrop_template
+  local template_dir=$script_root/templates/$landrop_template
 
-  echo "Setting up lando & drop for $lando_name"
+  [ -d "$template_dir/landrop_template" ] && echo "[ERROR] provided template does not exist." && exit
 
-  cp $script_root/example-dot-lando.yml .lando.yml
-  cp $script_root/example-dot-drop.yml .drop.yml
-  cp $script_root/example-drop.yml drop.yml
+  echo "Setting up lando & drop from $landrop_template"
+
+  cp $template_dir/dot-lando.yml .lando.yml
+  cp $template_dir/dot-drop.yml .drop.yml
+  cp $template_dir/drop.yml drop.yml
 
   sed -i "s/LANDO_NAME/$lando_name/" .drop.yml .lando.yml
 
   echo "Installs drop... got it? ;)"
-  rm -rf .drop
-  git clone git@github.com:pendashteh/drop.git .drop
+  [ ! -d .drop ] && rm -rf .drop && git clone git@github.com:pendashteh/drop.git .drop
 }
 
 _launch () {

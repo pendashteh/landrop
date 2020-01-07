@@ -1,0 +1,7 @@
+base: .drop.yml
+
+build:
+  docroot:
+    type: git
+    url: https://github.com/drupal/drupal.git
+    branch: 8.8.x

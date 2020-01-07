@@ -1,0 +1,12 @@
+name: LANDO_NAME
+recipe: drupal8
+config:
+  webroot: docroot
+  pma:
+    type: phpmyadmin
+    hosts:
+      - database
+tooling:
+  drop:
+    service: appserver
+    cmd: /app/.drop/drop
